@@ -81,6 +81,15 @@ SOMATIC = {
 
 
 # Lexical priors for RU (inference-time injection, same principle as dario.c)
+
+FR_LEXICAL = {
+    0: ['peur','terrifi','effraye','angoiss','panique'],
+    1: ['aime','amour','adore','tendress','bonheur','heureu'],
+    2: ['deteste','furieu','rage','colere','haine','enerve','agace','insupport'],
+    3: ['vide','rien','ennui','lasse','fatigue','indiffere','triste','seul','ressens rien'],
+    4: ['excite','curie','fascin','passion','intere'],
+    5: ['honte','confus','bizarre','etrange'],
+}
 RU_LEXICAL = {
     0: ['страшн','боюсь','ужас','паник','жуть','кошмар','испуг'],
     1: ['люблю','обожаю','нежн','дорог','родн','счастл'],
@@ -102,12 +111,12 @@ HE_LEXICAL = {
 
 def apply_lexical_priors(prompt, chambers, lang):
     import numpy as np
-    if lang not in ('ru', 'he'):
+    if lang not in ('ru', 'he', 'fr'):
         return chambers
     modified = chambers.copy()
     prompt_lower = prompt.lower()
-    BOOST = 0.25 if lang == "ru" else 0.9  # HE needs stronger boost (VOID=84% in data)
-    lexicon = RU_LEXICAL if lang == 'ru' else HE_LEXICAL
+    BOOST = {'ru': 0.25, 'he': 0.9, 'fr': 0.35}.get(lang, 0.25)  # HE needs stronger boost (VOID=84% in data)
+    lexicon = RU_LEXICAL if lang == "ru" else (HE_LEXICAL if lang == "he" else FR_LEXICAL)
     for ch_idx, words in lexicon.items():
         for w in words:
             if w in prompt_lower:
