@@ -1,0 +1,13 @@
+*.pt
+*.bin
+*.safetensors
+*.gguf
+*.model
+*.vocab
+*.xz
+*.arrow
+*.jsonl
+__pycache__/
+*.pyc
+weights/
+data/
