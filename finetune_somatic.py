@@ -9,8 +9,8 @@ sys.path.insert(0, '/home/ubuntu/klaus')
 from train_chambers import KlausLM, WEIGHTS_DIR, DIM, N_HEADS, N_LAYERS, HDIM, VOCAB, MAX_SEQ
 
 BATCH = 16
-LR = 3e-4  # very low — preserve general capability
-MAX_EPOCHS = 80
+LR = 1e-4  # very low — preserve general capability
+MAX_EPOCHS = 15
 LANGS = ['en', 'ru', 'fr', 'he']
 DATA_DIR = '/home/ubuntu/klaus/data'
 
@@ -84,7 +84,7 @@ def train_lang(lang, epochs=MAX_EPOCHS):
         gen_lines = []
         with open(gen_path) as f:
             for i, line in enumerate(f):
-                if i >= 0:
+                if i >= 2000:
                     break  # 5K general lines
                 ids = sp.encode(line.strip())
                 if len(ids) > 3:
